@@ -1,0 +1,801 @@
+/* ────────────────────────────────────────────────────────────────
+   HELLO DOLLY — maquette page d'accueil
+   Direction : « Atelier Hello Dolly » — ivoire, encre, vert et or
+   tirés de ses propres pièces. Fraunces + Karla.
+   ──────────────────────────────────────────────────────────────── */
+
+:root{
+  /* Couleurs — prises dans ses photos */
+  --parchemin:#F7F2E8;
+  --creme:#FCF9F3;
+  --creme-chaud:#F2EADC;
+  --encre:#191613;
+  --encre-douce:#56504A;
+  --vert:#14534A;
+  --vert-clair:#2B7A6A;
+  --or:#B07F2E;          /* filets, pastilles — jamais du texte */
+  --or-texte:#8A6220;    /* la même famille, mais lisible : 4,9:1 sur le parchemin */
+  --bleuet:#6F93C9;
+  --trait:#E0D6C4;
+  --trait-fin:#EDE5D7;
+
+  /* Typo */
+  --display:"Fraunces",Georgia,"Times New Roman",serif;
+  --texte:"Karla","Helvetica Neue",Arial,sans-serif;
+
+  /* Rythme — échelle 4 / 8 */
+  --e1:8px; --e2:16px; --e3:24px; --e4:32px; --e5:48px;
+  --e6:64px; --e7:96px; --e8:128px;
+
+  --bord:2px;
+  --page:1280px;
+  --gouttiere:clamp(20px,5vw,64px);
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  background:var(--parchemin);
+  color:var(--encre);
+  font-family:var(--texte);
+  font-size:17px;
+  line-height:1.65;
+  font-synthesis-weight:none;
+  -webkit-font-smoothing:antialiased;
+}
+img{max-width:100%;display:block}
+a{color:inherit}
+h1,h2,h3,h4{
+  font-family:var(--display);
+  font-weight:400;
+  font-variation-settings:"SOFT" 40,"WONK" 1,"opsz" 110;
+  letter-spacing:-0.012em;
+  line-height:1.04;
+  text-wrap:balance;
+  margin:0;
+}
+p{margin:0}
+::selection{background:var(--vert);color:#fff}
+
+/* Accessibilité ------------------------------------------------ */
+:focus-visible{
+  outline:2px solid var(--vert);
+  outline-offset:3px;
+  border-radius:1px;
+}
+.saut-contenu{
+  position:absolute;left:-9999px;top:0;z-index:100;
+  background:var(--vert);color:#fff;padding:12px 20px;font-size:15px;
+}
+.saut-contenu:focus{left:var(--e2);top:var(--e2)}
+.invisible{
+  position:absolute;width:1px;height:1px;padding:0;margin:-1px;
+  overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;
+}
+
+/* Blocs utilitaires -------------------------------------------- */
+.page{
+  width:100%;max-width:var(--page);margin-inline:auto;
+  padding-inline:var(--gouttiere);
+}
+.sur-titre{
+  font-size:12px;font-weight:600;letter-spacing:0.16em;
+  text-transform:uppercase;color:var(--or-texte);margin:0;
+}
+.filet{height:1px;background:var(--trait);border:0;margin:0}
+
+/* ─── Bandeau d'annonce ─── */
+.annonce{
+  background:var(--vert);color:#F2EFE7;
+  font-size:13.5px;letter-spacing:0.02em;
+}
+.annonce .page{
+  display:flex;gap:var(--e3);align-items:center;justify-content:space-between;
+  min-height:42px;padding-block:9px;
+}
+.annonce p{margin:0}
+.annonce .tel{
+  color:#fff;text-decoration:none;font-weight:600;
+  border-bottom:1px solid rgba(255,255,255,.45);padding-bottom:1px;
+  white-space:nowrap;
+}
+.annonce .tel:hover{border-bottom-color:#fff}
+.annonce .masque-tel{display:none}
+.annonce .adresse-longue{display:none}
+
+/* ─── En-tête ─── */
+.entete{
+  position:sticky;top:0;z-index:50;
+  background:rgba(247,242,232,.92);
+  backdrop-filter:saturate(1.1) blur(8px);
+  border-bottom:1px solid transparent;
+  transition:border-color .25s ease,background .25s ease;
+}
+.entete.posee{border-bottom-color:var(--trait)}
+.entete .page{
+  display:flex;align-items:center;gap:var(--e3);
+  min-height:76px;
+}
+.marque{
+  font-family:var(--display);
+  font-variation-settings:"SOFT" 60,"WONK" 1,"opsz" 144;
+  font-weight:500;font-size:27px;line-height:1;letter-spacing:-0.02em;
+  text-decoration:none;white-space:nowrap;
+}
+.marque em{font-style:italic;font-weight:400}
+.marque .lieu{
+  display:block;font-family:var(--texte);font-size:9.5px;font-weight:600;
+  letter-spacing:0.22em;text-transform:uppercase;color:var(--encre-douce);
+  margin-top:5px;
+}
+.nav{
+  display:none;margin-left:auto;gap:var(--e4);
+  font-size:14.5px;letter-spacing:0.01em;
+}
+.nav a{
+  text-decoration:none;padding:6px 0;position:relative;color:var(--encre);
+}
+.nav a::after{
+  content:"";position:absolute;left:0;right:100%;bottom:2px;height:1px;
+  background:var(--vert);transition:right .3s cubic-bezier(.2,.6,.2,1);
+}
+.nav a:hover::after,.nav a:focus-visible::after{right:0}
+.outils{display:flex;align-items:center;gap:var(--e1);margin-left:auto}
+.nav+.outils{margin-left:0}
+.bouton-icone{
+  width:44px;height:44px;display:grid;place-items:center;
+  background:none;border:0;cursor:pointer;color:var(--encre);border-radius:2px;
+}
+.bouton-icone:hover{background:var(--creme-chaud)}
+.bouton-icone svg{width:21px;height:21px;stroke-width:1.4}
+.pastille{
+  position:absolute;transform:translate(11px,-11px);
+  background:var(--vert);color:#fff;font-size:10.5px;font-weight:700;
+  min-width:17px;height:17px;border-radius:9px;display:grid;place-items:center;
+  padding:0 4px;
+}
+
+/* Menu mobile — <details> : il s'ouvre même sans JavaScript */
+.menu-mobile{position:relative}
+.menu-mobile>summary{
+  width:44px;height:44px;display:grid;place-items:center;cursor:pointer;
+  list-style:none;border-radius:2px;
+}
+.menu-mobile>summary::-webkit-details-marker{display:none}
+.menu-mobile>summary:hover{background:var(--creme-chaud)}
+.menu-mobile>summary svg{width:22px;height:22px;stroke-width:1.5}
+.menu-mobile>summary .croix{display:none}
+.menu-mobile[open]>summary .barres{display:none}
+.menu-mobile[open]>summary .croix{display:block}
+.panneau-menu{
+  position:absolute;right:0;top:calc(100% + 10px);z-index:60;
+  background:var(--creme);border:1px solid var(--trait);border-radius:2px;
+  min-width:232px;padding:var(--e1) 0;
+  box-shadow:0 18px 40px rgba(25,22,19,.10);
+  display:flex;flex-direction:column;
+}
+.panneau-menu a{
+  padding:13px 22px;text-decoration:none;font-size:15.5px;min-height:44px;
+  display:flex;align-items:center;
+}
+.panneau-menu a:hover{background:var(--creme-chaud)}
+
+/* ─── Héros ─── */
+.heros{position:relative;overflow:hidden;padding-top:clamp(36px,6vw,76px)}
+.heros .page{
+  display:grid;gap:clamp(32px,5vw,56px);
+  grid-template-columns:1fr;align-items:end;
+}
+.heros-texte{max-width:620px;padding-bottom:clamp(8px,3vw,48px)}
+.heros h1{
+  font-size:clamp(42px,5.9vw,78px);
+  font-variation-settings:"SOFT" 30,"WONK" 1,"opsz" 144;
+  font-weight:380;
+  margin:var(--e3) 0 var(--e3);
+}
+.heros h1 em{
+  font-style:italic;font-weight:500;color:var(--vert);
+  font-variation-settings:"SOFT" 70,"WONK" 1,"opsz" 144;
+}
+.heros .chapeau{
+  font-size:clamp(16.5px,1.6vw,18.5px);color:var(--encre-douce);
+  max-width:44ch;
+}
+.boutons{display:flex;flex-wrap:wrap;gap:var(--e2);margin-top:var(--e4)}
+.bouton{
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  min-height:52px;padding:0 26px;border:1px solid var(--vert);
+  background:var(--vert);color:#FBF8F2;text-decoration:none;
+  font-size:15px;font-weight:600;letter-spacing:0.03em;border-radius:2px;
+  transition:background .2s ease,color .2s ease,transform .2s ease;
+}
+.bouton:hover{background:#0E3F38;transform:translateY(-1px)}
+.bouton svg{width:16px;height:16px;stroke-width:1.8}
+.bouton--ligne{background:none;color:var(--vert);border-color:var(--trait)}
+.bouton--ligne:hover{background:var(--creme);border-color:var(--vert);transform:translateY(-1px)}
+.mention-heros{
+  display:flex;flex-wrap:wrap;gap:var(--e1) var(--e3);
+  margin-top:var(--e4);padding-top:var(--e3);
+  border-top:1px solid var(--trait);
+  font-size:13px;letter-spacing:0.03em;color:var(--encre-douce);
+}
+.mention-heros span{display:flex;align-items:center;gap:7px}
+.mention-heros svg{width:14px;height:14px;color:var(--or);stroke-width:1.8}
+
+.heros-image{position:relative;margin-inline:calc(var(--gouttiere)*-1)}
+.heros-image img{
+  width:100%;height:clamp(380px,62vw,660px);object-fit:cover;object-position:50% 28%;
+}
+.legende{
+  position:absolute;left:var(--gouttiere);bottom:var(--e3);
+  background:rgba(252,249,243,.94);padding:10px 16px;
+  font-size:12px;letter-spacing:0.08em;text-transform:uppercase;
+  color:var(--encre);border-left:2px solid var(--or);
+}
+.tampon{
+  position:absolute;right:clamp(16px,2.5vw,34px);top:clamp(16px,2.5vw,30px);
+  width:116px;height:116px;display:none;place-items:center;
+  color:var(--vert);z-index:2;
+}
+.tampon::before{
+  content:"";position:absolute;inset:0;border-radius:50%;
+  background:radial-gradient(circle,rgba(247,242,232,.96) 58%,rgba(247,242,232,.72) 78%,rgba(247,242,232,0) 100%);
+}
+.tampon svg{position:relative}
+.tampon svg{width:100%;height:100%}
+.tampon .pivote{animation:tourne 34s linear infinite}
+@keyframes tourne{to{transform:rotate(360deg)}}
+
+/* ─── Bande de repères ─── */
+.reperes{border-block:1px solid var(--trait);margin-top:clamp(36px,4vw,58px)}
+.reperes .page{
+  display:grid;grid-template-columns:1fr;gap:0;
+}
+.repere{
+  display:flex;gap:var(--e2);align-items:flex-start;
+  padding:var(--e3) 0;border-bottom:1px solid var(--trait-fin);
+}
+.repere:last-child{border-bottom:0}
+.repere svg{width:22px;height:22px;color:var(--vert);flex:none;margin-top:2px;stroke-width:1.3}
+.repere h3{font-size:17px;font-variation-settings:"SOFT" 50,"WONK" 0,"opsz" 40;margin-bottom:3px}
+.repere p{font-size:14.5px;color:var(--encre-douce);line-height:1.5}
+
+/* ─── Titre de section ─── */
+.tete-section{
+  display:flex;flex-wrap:wrap;align-items:flex-end;gap:var(--e3);
+  justify-content:space-between;margin-bottom:var(--e5);
+}
+.tete-section h2{
+  font-size:clamp(32px,4.6vw,52px);font-weight:380;
+  font-variation-settings:"SOFT" 40,"WONK" 1,"opsz" 144;
+}
+.tete-section h2 em{font-style:italic;color:var(--vert)}
+.tete-section .sur-titre{margin-bottom:var(--e2)}
+.lien-liste{
+  font-size:14px;font-weight:600;letter-spacing:0.04em;text-decoration:none;
+  color:var(--vert);display:inline-flex;align-items:center;gap:8px;
+  padding-bottom:3px;border-bottom:1px solid var(--trait);
+  transition:border-color .2s ease,gap .2s ease;
+}
+.lien-liste:hover{border-bottom-color:var(--vert);gap:12px}
+.lien-liste svg{width:15px;height:15px;stroke-width:1.8}
+
+section{padding-block:clamp(56px,8vw,112px)}
+
+/* ─── Grille produits ─── */
+.grille{
+  display:grid;gap:clamp(20px,2.6vw,34px) clamp(16px,2vw,26px);
+  grid-template-columns:repeat(2,1fr);
+}
+.article{display:flex;flex-direction:column;height:100%}
+.article a.vignette{
+  display:block;position:relative;background:var(--creme);
+  border:1px solid var(--trait-fin);border-radius:2px;
+  padding:clamp(14px,2vw,26px);aspect-ratio:4/5;overflow:hidden;
+  transition:background .3s ease,border-color .3s ease;
+}
+.article a.vignette:hover{background:var(--creme-chaud);border-color:var(--trait)}
+.article .photo{
+  width:100%;height:100%;object-fit:contain;object-position:50% 100%;
+  transition:transform .5s cubic-bezier(.2,.6,.2,1);
+  filter:drop-shadow(0 18px 24px rgba(25,22,19,.08));
+}
+.article a.vignette:hover .photo{transform:scale(1.035)}
+.etiquette{
+  position:absolute;top:12px;left:12px;
+  font-size:10.5px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;
+  padding:5px 9px;border-radius:2px;background:var(--parchemin);color:var(--vert);
+  border:1px solid var(--trait);
+}
+.etiquette--depot{color:var(--or-texte);border-color:#E7D5B4;background:#FBF4E6}
+.numero{
+  position:absolute;right:14px;bottom:12px;font-size:11px;font-weight:600;
+  letter-spacing:0.16em;color:#6B6158;
+}
+.voir{
+  position:absolute;left:0;right:0;bottom:0;
+  background:var(--vert);color:#fff;text-align:center;
+  font-size:13px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;
+  padding:13px;transform:translateY(100%);transition:transform .3s cubic-bezier(.2,.6,.2,1);
+}
+.article a.vignette:hover .voir,.article a.vignette:focus-visible .voir{transform:translateY(0)}
+.article .infos{padding-top:var(--e2);display:flex;flex-direction:column;flex:1}
+.article h3{
+  font-size:clamp(17px,1.45vw,20px);font-weight:450;line-height:1.2;
+  font-variation-settings:"SOFT" 45,"WONK" 0,"opsz" 60;
+}
+.article h3 a{text-decoration:none}
+.article h3 a:hover{text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px}
+.article .detail{
+  font-size:13.5px;color:var(--encre-douce);margin-top:5px;letter-spacing:0.01em;
+}
+.article .prix{
+  margin-top:auto;padding-top:var(--e2);display:flex;align-items:baseline;gap:10px;
+  font-size:16px;font-weight:600;font-variant-numeric:tabular-nums;
+}
+.article .prix .piece{
+  font-size:12px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;
+  color:var(--encre-douce);
+}
+.carte-fin{
+  grid-column:span 2;background:var(--vert);color:#F4F0E6;border-radius:2px;
+  padding:clamp(26px,4vw,44px);display:flex;flex-direction:column;
+  justify-content:center;gap:var(--e3);
+}
+.carte-fin h3{
+  font-size:clamp(23px,2.6vw,30px);color:#FBF8F2;font-weight:380;
+  font-variation-settings:"SOFT" 40,"WONK" 1,"opsz" 96;
+}
+.carte-fin p{font-size:15px;color:#D6DDD6;max-width:38ch}
+.carte-fin a{
+  align-self:flex-start;color:#fff;text-decoration:none;font-weight:600;
+  font-size:14px;letter-spacing:0.05em;display:inline-flex;align-items:center;gap:9px;
+  border-bottom:1px solid rgba(255,255,255,.5);padding-bottom:4px;min-height:32px;
+  transition:gap .2s ease}
+.carte-fin a:hover{gap:14px;border-bottom-color:#fff}
+.carte-fin svg{width:16px;height:16px;stroke-width:1.8}
+
+/* ─── Retouches ─── */
+.retouches{background:var(--creme-chaud)}
+.retouches .page{display:grid;gap:clamp(32px,5vw,64px);grid-template-columns:1fr;align-items:center}
+.retouches h2{font-size:clamp(30px,4.2vw,48px);font-weight:380;margin-block:var(--e2) var(--e3)}
+.retouches h2 em{font-style:italic;color:var(--vert)}
+.retouches p.chapeau{color:var(--encre-douce);max-width:46ch}
+.liste-services{
+  list-style:none;margin:var(--e4) 0 0;padding:0;
+  display:grid;grid-template-columns:repeat(2,1fr);gap:0;
+  border-top:1px solid var(--trait);
+}
+.liste-services li{
+  padding:14px 0;border-bottom:1px solid var(--trait);
+  font-size:15px;display:flex;align-items:center;gap:10px;
+}
+.liste-services li::before{
+  content:"";width:5px;height:5px;background:var(--or);flex:none;
+  transform:rotate(45deg);
+}
+.retouches figure{margin:0;position:relative}
+.retouches figure img{
+  width:100%;height:clamp(300px,46vw,480px);object-fit:cover;object-position:50% 35%;
+  border-radius:2px;
+}
+
+/* ─── L'atelier ─── */
+.atelier .page{display:grid;gap:clamp(32px,5vw,64px);grid-template-columns:1fr}
+.atelier figure{margin:0}
+.atelier figure img{width:100%;height:clamp(280px,42vw,520px);object-fit:cover;border-radius:2px}
+.atelier figcaption{
+  font-size:12px;letter-spacing:0.08em;text-transform:uppercase;
+  color:var(--encre-douce);margin-top:10px;
+}
+.atelier h2{font-size:clamp(30px,4.2vw,50px);font-weight:380;margin-bottom:var(--e3)}
+.atelier h2 em{font-style:italic;color:var(--vert)}
+.atelier p+p{margin-top:var(--e2)}
+.atelier p{color:var(--encre-douce);max-width:52ch}
+.citation{
+  margin:var(--e4) 0 0;padding-left:var(--e3);border-left:2px solid var(--or);
+  font-family:var(--display);font-style:italic;font-size:clamp(20px,2.2vw,25px);
+  line-height:1.35;color:var(--encre);
+  font-variation-settings:"SOFT" 60,"WONK" 1,"opsz" 72;
+}
+.signature{
+  font-family:var(--texte);font-style:normal;font-size:12.5px;font-weight:600;
+  letter-spacing:0.14em;text-transform:uppercase;color:var(--encre-douce);
+  display:block;margin-top:var(--e2);
+}
+
+/* ─── Les rayons ─── */
+.rayons{border-top:1px solid var(--trait)}
+.grille-rayons{display:grid;grid-template-columns:1fr;gap:0}
+.rayon{
+  padding:var(--e4) 0;border-bottom:1px solid var(--trait-fin);
+  display:flex;gap:var(--e3);align-items:flex-start;
+  text-decoration:none;transition:padding-left .25s ease;
+}
+.rayon:hover{padding-left:10px}
+.rayon:last-child{border-bottom:0}
+.rayon .ico{
+  width:46px;height:46px;flex:none;display:grid;place-items:center;
+  border:1px solid var(--trait);border-radius:50%;color:var(--vert);
+}
+.rayon .ico svg{width:22px;height:22px;stroke-width:1.2}
+.rayon h3{font-size:19px;font-weight:450;font-variation-settings:"SOFT" 45,"WONK" 0,"opsz" 48}
+.rayon p{font-size:14.5px;color:var(--encre-douce);margin-top:5px;max-width:42ch}
+.rayon .fleche{margin-left:auto;align-self:center;color:var(--or);display:none}
+.rayon:hover .fleche{display:block}
+.rayon .fleche svg{width:18px;height:18px;stroke-width:1.6}
+
+/* ─── Infos pratiques ─── */
+.pratique{background:var(--encre);color:#E8E2D8}
+.pratique .page{display:grid;grid-template-columns:1fr;gap:clamp(32px,5vw,64px)}
+.pratique h2{color:#FBF8F2;font-size:clamp(28px,3.6vw,42px);font-weight:380;margin-bottom:var(--e3)}
+.pratique h2 em{font-style:italic;color:#8FBDB0}
+.horaires{width:100%;border-collapse:collapse;font-size:15px;max-width:420px}
+.horaires th{
+  text-align:left;font-weight:500;color:#C9C2B7;padding:11px 0;
+  border-bottom:1px solid rgba(255,255,255,.12);width:38%;
+}
+.horaires td{
+  padding:11px 0;border-bottom:1px solid rgba(255,255,255,.12);
+  font-variant-numeric:tabular-nums;color:#F2EDE4;
+}
+.horaires tr.ferme th,.horaires tr.ferme td{color:#948D82}
+.coordonnees{list-style:none;margin:0;padding:0;font-size:16px;display:grid;gap:var(--e3)}
+.coordonnees li{display:flex;gap:14px;align-items:flex-start}
+.coordonnees svg{width:19px;height:19px;color:#8FBDB0;flex:none;margin-top:3px;stroke-width:1.4}
+.coordonnees a{color:#FBF8F2;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.3);padding-bottom:2px}
+.coordonnees a:hover{border-bottom-color:#fff}
+.coordonnees .note{display:block;font-size:13.5px;color:#A9A298;margin-top:3px}
+
+/* ─── Pied ─── */
+.pied{background:var(--encre);color:#9A938A;border-top:1px solid rgba(255,255,255,.1)}
+.pied .page{
+  display:flex;flex-wrap:wrap;gap:var(--e2) var(--e4);
+  justify-content:space-between;align-items:center;padding-block:var(--e4);
+  font-size:13.5px;
+}
+.pied nav{display:flex;flex-wrap:wrap;gap:var(--e3)}
+.pied a{color:#9A938A;text-decoration:none}
+.pied a:hover{color:#E8E2D8}
+
+/* ─── Apparitions ─── */
+.apparait{opacity:1;transform:none;transition:opacity .7s ease,transform .7s cubic-bezier(.2,.6,.2,1)}
+
+/* ─── Points de rupture ─── */
+@media (min-width:600px){
+  .annonce .masque-tel{display:block}
+  .annonce .adresse-longue{display:inline}
+  .grille{grid-template-columns:repeat(2,1fr)}
+  .reperes .page{grid-template-columns:repeat(3,1fr);gap:var(--e5)}
+  .repere{border-bottom:0;padding-block:var(--e4)}
+  .tampon{display:grid}
+}
+@media (min-width:900px){
+  .nav{display:flex}
+  .menu-mobile{display:none}
+  /* Le texte reste aligné sur la grille du site, la photo file jusqu'au
+     bord de l'écran. Pas de 100vw : la barre de défilement fausserait tout. */
+  .heros .page{
+    grid-template-columns:minmax(320px,46%) 1fr;align-items:center;
+    max-width:none;padding-right:0;
+    padding-left:max(var(--gouttiere),calc((100% - var(--page))/2 + var(--gouttiere)));
+  }
+  .heros-image{margin-inline:0}
+  .heros-image img{height:min(78vh,720px)}
+  .grille{grid-template-columns:repeat(3,1fr)}
+  .carte-fin{grid-column:span 1}
+  .retouches .page{grid-template-columns:1fr 1fr}
+  .atelier .page{grid-template-columns:1fr 1.15fr}
+  /* Pas de position:sticky ici : la photo est la colonne la plus haute,
+     il n'y a donc rien à faire défiler à côté. Le collant ne sert que sur
+     la fiche produit, où la galerie est bien plus haute que le panneau. */
+  .grille-rayons{grid-template-columns:repeat(2,1fr) ;column-gap:var(--e6)}
+  .rayon:nth-last-child(2){border-bottom:0}
+  .pratique .page{grid-template-columns:1fr 1fr}
+}
+@media (min-width:1180px){
+  .grille{grid-template-columns:repeat(3,1fr)}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms !important;transition-duration:.001ms !important}
+  .tampon .pivote{animation:none}
+}
+
+/* ════════════════════════════════════════════════════════════════
+   FICHE PRODUIT — produit.html
+   ════════════════════════════════════════════════════════════════ */
+
+/* ─── Fil d'Ariane ─── */
+.fil{padding-top:var(--e3);font-size:13px;color:var(--encre-douce)}
+.fil ol{list-style:none;display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0}
+.fil li::after{content:"/";margin-left:8px;color:var(--trait)}
+.fil li:last-child::after{content:""}
+.fil a{text-decoration:none;border-bottom:1px solid transparent;padding-bottom:1px}
+.fil a:hover{border-bottom-color:var(--trait)}
+.fil [aria-current]{color:var(--encre)}
+
+/* ─── Bloc produit ─── */
+.produit{padding-top:var(--e4);padding-bottom:clamp(48px,7vw,96px)}
+.produit .page{display:grid;gap:clamp(28px,4vw,72px);grid-template-columns:1fr;align-items:start}
+
+/* La galerie : un ruban qui s'aimante sur mobile, une colonne sur grand écran */
+.galerie{
+  display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;
+  margin-inline:calc(var(--gouttiere)*-1);padding-inline:var(--gouttiere);
+  scrollbar-width:none;-webkit-overflow-scrolling:touch;
+}
+.galerie::-webkit-scrollbar{display:none}
+.galerie figure{margin:0;flex:0 0 86%;scroll-snap-align:center;position:relative}
+.galerie img{
+  /* height:auto est indispensable : sans lui, les attributs width/height du
+     HTML imposent la hauteur et aspect-ratio ne sert plus à rien. */
+  width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;border-radius:2px;
+  background:var(--creme);
+}
+.galerie figure.pose img{object-fit:contain;padding:var(--e3)}
+/* Photo portée : on recadre vers le bas, sinon c'est le visage qu'on vend
+   et pas la robe. */
+.galerie figure.portee img{object-position:50% 40%}
+.galerie figcaption{
+  position:absolute;left:12px;bottom:12px;background:rgba(252,249,243,.94);
+  padding:7px 12px;font-size:11px;letter-spacing:0.09em;text-transform:uppercase;
+  border-left:2px solid var(--or);
+}
+.indice-galerie{
+  display:flex;justify-content:center;gap:7px;margin-top:var(--e2);
+}
+.indice-galerie span{width:5px;height:5px;border-radius:50%;background:var(--trait)}
+.indice-galerie span:first-child{background:var(--vert)}
+
+/* ─── Le panneau d'achat ─── */
+.panneau{display:flex;flex-direction:column}
+.etiquette--statique{
+  position:static;align-self:flex-start;margin-bottom:var(--e2);
+}
+.panneau h1{
+  font-size:clamp(28px,3.4vw,40px);font-weight:400;
+  font-variation-settings:"SOFT" 40,"WONK" 1,"opsz" 96;
+  margin-bottom:var(--e2);
+}
+.ligne-prix{
+  display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+  padding-bottom:var(--e3);border-bottom:1px solid var(--trait);
+}
+.ligne-prix .montant{font-size:26px;font-weight:600;font-variant-numeric:tabular-nums}
+.ligne-prix .piece{
+  font-size:12px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;
+  color:var(--or-texte);
+}
+.panneau .presentation{
+  margin-top:var(--e3);color:var(--encre-douce);font-size:16px;max-width:52ch;
+}
+.panneau .presentation+.presentation{margin-top:var(--e2)}
+
+.mesures{margin-top:var(--e4)}
+.mesures h2{
+  font-family:var(--texte);font-size:12px;font-weight:700;letter-spacing:0.14em;
+  text-transform:uppercase;color:var(--encre-douce);margin-bottom:var(--e2);
+}
+.mesures table{width:100%;border-collapse:collapse;font-size:14.5px}
+.mesures th{
+  text-align:left;font-weight:400;color:var(--encre-douce);
+  padding:9px 0;border-bottom:1px solid var(--trait-fin);width:58%;
+}
+.mesures td{
+  padding:9px 0;border-bottom:1px solid var(--trait-fin);
+  font-variant-numeric:tabular-nums;text-align:right;
+}
+.mesures .note{font-size:13px;color:var(--encre-douce);margin-top:10px}
+
+.achat{display:flex;flex-direction:column;gap:12px;margin-top:var(--e4)}
+.achat .bouton{width:100%;min-height:56px;font-size:16px}
+.message-panier{
+  font-size:14px;color:var(--vert);display:flex;align-items:center;gap:8px;
+  min-height:20px;
+}
+.message-panier svg{width:16px;height:16px;stroke-width:2}
+
+.rassure{
+  list-style:none;margin:var(--e4) 0 0;padding:var(--e3) 0 0;
+  border-top:1px solid var(--trait);display:grid;gap:14px;font-size:14.5px;
+}
+.rassure li{display:flex;gap:11px;align-items:flex-start;color:var(--encre-douce)}
+.rassure svg{width:17px;height:17px;color:var(--vert);flex:none;margin-top:3px;stroke-width:1.5}
+.rassure strong{color:var(--encre);font-weight:600}
+
+/* Accordéons — <details>, donc ouvrables sans JavaScript */
+.accordeons{margin-top:var(--e4);border-top:1px solid var(--trait)}
+.accordeons details{border-bottom:1px solid var(--trait)}
+.accordeons summary{
+  display:flex;align-items:center;justify-content:space-between;gap:var(--e2);
+  padding:17px 0;cursor:pointer;list-style:none;min-height:44px;
+  font-size:15px;font-weight:600;letter-spacing:0.01em;
+}
+.accordeons summary::-webkit-details-marker{display:none}
+.accordeons summary::after{
+  content:"";width:11px;height:11px;flex:none;
+  border-right:1.5px solid var(--encre-douce);border-bottom:1.5px solid var(--encre-douce);
+  transform:rotate(45deg) translate(-3px,-3px);transition:transform .25s ease;
+}
+.accordeons details[open] summary::after{transform:rotate(225deg) translate(-2px,-2px)}
+.accordeons .dedans{padding:0 0 var(--e3);font-size:15px;color:var(--encre-douce);max-width:54ch}
+.accordeons .dedans p+p{margin-top:12px}
+
+/* ─── Barre d'achat collée en bas, mobile ─── */
+.barre-achat{
+  position:fixed;left:0;right:0;bottom:0;z-index:70;
+  background:rgba(252,249,243,.97);border-top:1px solid var(--trait);
+  padding:10px var(--gouttiere) calc(10px + env(safe-area-inset-bottom));
+  display:flex;align-items:center;gap:var(--e2);
+  transform:translateY(100%);transition:transform .3s cubic-bezier(.2,.6,.2,1);
+}
+.barre-achat.montree{transform:translateY(0)}
+.barre-achat .infos{flex:1;min-width:0}
+.barre-achat .nom{
+  font-family:var(--display);font-size:15px;line-height:1.2;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.barre-achat .montant{font-size:14px;font-weight:600;font-variant-numeric:tabular-nums}
+.barre-achat .bouton{min-height:46px;padding:0 20px;white-space:nowrap}
+
+/* ─── Bloc atelier sous la fiche ─── */
+.signature-atelier{background:var(--creme-chaud)}
+.signature-atelier .page{
+  display:grid;gap:clamp(28px,4vw,56px);grid-template-columns:1fr;align-items:center;
+}
+.signature-atelier img{
+  width:100%;height:clamp(240px,34vw,360px);object-fit:cover;border-radius:2px;
+}
+.signature-atelier h2{font-size:clamp(26px,3.2vw,38px);font-weight:380;margin-bottom:var(--e2)}
+.signature-atelier h2 em{font-style:italic;color:var(--vert)}
+.signature-atelier p{color:var(--encre-douce);max-width:48ch}
+
+@media (min-width:700px){
+  .galerie figure{flex:0 0 60%}
+}
+@media (min-width:900px){
+  .produit .page{grid-template-columns:1.22fr 1fr}
+  .galerie{
+    display:grid;grid-template-columns:1fr 1fr;gap:12px;overflow:visible;
+    margin-inline:0;padding-inline:0;
+  }
+  .galerie figure{flex:none}
+  /* La dernière vue court sur les deux colonnes, à plat : elle ferme la
+     galerie comme une double page, et le vêtement n'est jamais rogné. */
+  .galerie figure:last-of-type{grid-column:span 2}
+  .galerie figure:last-of-type img{aspect-ratio:16/10}
+  .indice-galerie{display:none}
+  .panneau{position:sticky;top:104px}
+  .barre-achat{display:none}
+  .signature-atelier .page{grid-template-columns:1fr 1fr}
+}
+
+/* ════════════════════════════════════════════════════════════════
+   MOUVEMENT ET RYTHME
+   Le vocabulaire d'animation des bonnes boutiques en ligne, écrit
+   ici à la main : aucune bibliothèque, rien à télécharger.
+   ════════════════════════════════════════════════════════════════ */
+
+/* Défilement doux pour les ancres, sauf si la personne refuse le mouvement */
+@media (prefers-reduced-motion:no-preference){
+  html{scroll-behavior:smooth}
+}
+section,.reperes,[id]{scroll-margin-top:96px}
+
+/* ─── Le bandeau qui défile ─── */
+.bandeau-defilant{
+  background:var(--encre);color:#EFE8DC;
+  border-block:1px solid rgba(255,255,255,.08);
+  overflow:hidden;padding:13px 0;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);
+          mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);
+}
+.ruban{
+  display:flex;width:max-content;
+  animation:defile 42s linear infinite;
+}
+.bandeau-defilant:hover .ruban{animation-play-state:paused}
+.ruban ul{
+  display:flex;align-items:center;gap:var(--e5);
+  list-style:none;margin:0;padding:0 calc(var(--e5)/2);
+  font-size:12.5px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;
+  white-space:nowrap;
+}
+.ruban li{display:flex;align-items:center;gap:var(--e5)}
+.ruban li::after{
+  content:"";width:7px;height:7px;flex:none;background:var(--or);
+  transform:rotate(45deg);
+}
+@keyframes defile{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ─── Le titre du héros, mot à mot ─── */
+.mot{
+  display:inline-block;overflow:hidden;vertical-align:bottom;
+  /* de la place pour les jambages, sinon « uniques » se fait couper */
+  padding-bottom:.14em;margin-bottom:-.14em;
+}
+.mot>span{display:inline-block;will-change:transform}
+.titre-anime .mot>span{
+  transform:translateY(102%);
+  animation:monte .9s cubic-bezier(.16,.84,.36,1) forwards;
+  animation-delay:calc(var(--rang) * 70ms + 120ms);
+}
+@keyframes monte{to{transform:translateY(0)}}
+
+/* ─── Les photos qui se découvrent au défilement ─── */
+/*
+ * ⚠️ PIÈGE : `animation-timeline: view()` se mesure par rapport au plus
+ * proche ancêtre qui rogne — et `overflow:hidden` en crée un. Une photo
+ * posée dans un cadre à overflow caché est donc toujours « entièrement
+ * visible » dans son cadre : l'animation se jouait d'un coup, puis plus
+ * rien. D'où le `view-timeline-name` sur le CADRE, que la photo appelle
+ * par son nom : le cadre, lui, est bien mesuré par rapport à la page.
+ *
+ * Et c'est progressif : sans la prise en charge du navigateur, la photo
+ * est simplement là, nette, tout de suite.
+ */
+.cadre{
+  overflow:hidden;border-radius:2px;
+  view-timeline-name:--cadre;view-timeline-axis:block;
+}
+.heros{view-timeline-name:--heros;view-timeline-axis:block}
+
+@supports (animation-timeline: view()){
+  @media (prefers-reduced-motion:no-preference){
+    .cadre>.devoile,.cadre .devoile{
+      animation:devoile linear both;
+      animation-timeline:--cadre;
+      animation-range:entry 12% cover 46%;
+      will-change:clip-path,transform;
+    }
+    @keyframes devoile{
+      from{clip-path:inset(16% 0 0 0);transform:scale(1.06)}
+      to{clip-path:inset(0 0 0 0);transform:scale(1)}
+    }
+    /* Respiration lente de la grande photo du héros */
+    .respire{
+      animation:respire linear both;
+      animation-timeline:--heros;
+      animation-range:cover 0% cover 100%;
+      will-change:transform;
+    }
+    @keyframes respire{
+      from{transform:scale(1.05) translateY(-1.4%)}
+      to{transform:scale(1) translateY(1.4%)}
+    }
+  }
+}
+
+/* ─── Le label au-dessus des titres, avec ses filets ─── */
+.sur-titre{display:flex;align-items:center;gap:12px}
+.sur-titre::before{
+  content:"";width:26px;height:1px;background:var(--or);flex:none;
+}
+
+/* ─── La bande « prévenez-moi » ─── */
+.alerte{background:var(--creme-chaud);border-top:1px solid var(--trait)}
+.alerte .page{
+  display:grid;gap:clamp(24px,3.5vw,56px);grid-template-columns:1fr;align-items:center;
+}
+.alerte h2{font-size:clamp(26px,3.4vw,40px);font-weight:380;margin-block:var(--e2) var(--e2)}
+.alerte h2 em{font-style:italic;color:var(--vert)}
+.alerte p{color:var(--encre-douce);max-width:46ch}
+.formulaire{display:flex;flex-wrap:wrap;gap:12px;margin-top:var(--e2)}
+.formulaire label{
+  flex:1 1 220px;display:flex;flex-direction:column;gap:7px;
+  font-size:12px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;
+  color:var(--encre-douce);
+}
+.formulaire input{
+  font:inherit;font-size:16px;color:var(--encre);
+  background:var(--creme);border:1px solid var(--trait);border-radius:2px;
+  padding:0 16px;min-height:52px;width:100%;
+}
+.formulaire input:focus-visible{border-color:var(--vert)}
+.formulaire .bouton{align-self:flex-end;min-height:52px}
+.alerte .petit{font-size:13px;color:var(--encre-douce);margin-top:var(--e2)}
+
+@media (min-width:900px){
+  .alerte .page{grid-template-columns:1fr 1fr}
+}

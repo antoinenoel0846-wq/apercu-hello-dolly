@@ -1,0 +1,5 @@
+# Aperçu client, jamais indexé — OFFRE.md §6 : « une adresse privée,
+# jamais indexée ». Cette page porte les photos d'une cliente et des prix
+# d'exemple : elle ne doit apparaître dans aucun moteur de recherche.
+User-agent: *
+Disallow: /
